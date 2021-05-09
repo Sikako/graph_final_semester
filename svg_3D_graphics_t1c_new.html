@@ -11,6 +11,9 @@
   var my_pointX2 = [];
   var my_pointY2 = [];
   var my_pointZ2 = [];
+  var iniPointX = [];
+  var iniPointY = [];
+  var iniPointZ = [];
   var point_num = 0 ;
   var knot = [];
   var draw;
@@ -103,9 +106,9 @@
  function draw_point(e) {
     if(e.button == 0) my_cross(e.clientX,e.clientY,"blue");
     //else if (e.button == 2) my_circle(e.clientX,e.clientY,"green");
-    my_pointX[point_num%12].value = e.clientX;
-    my_pointY[point_num%12].value = e.clientY;
-    my_pointZ[point_num%12].value = 0
+    my_pointX[point_num%12].value = iniPointX[point_num%12] =e.clientX;
+    my_pointY[point_num%12].value = iniPointY[point_num%12] = e.clientY;
+    my_pointZ[point_num%12].value = iniPointZ[point_num%12] = 0
     point_num ++;
     if(((point_num+1)%12) == 0) document.getElementById("c_point12").checked = true;
     else                    document.getElementById("c_point" + ((point_num+1)%12)).checked = true;
@@ -123,9 +126,9 @@ function refresh(){
    var y
    draw.clear();
    for(i=0; i<4; i++){
-      x = parseInt(my_pointX[i].values)
-      y = parseInt(my_pointY[i].value)
-      my_cross(x,y,'blue')                  
+      x = iniPointX[i]
+      y = iniPointY[i]
+      my_cross(x,y,"blue")                
   }
 }
 
@@ -464,13 +467,47 @@ function rotate_x() {
       }   
       
       Bezier_curve1()
-      console.log('1')
       // if(the_3d_draw_mode=="line")draw_cubic1();
       // else if(the_3d_draw_mode=="surface") draw_cubic2();      
     }
 
+    function rotate_y() {
+      var cx = 400
+      var cy = 300
+      var cz = 0
 
+      var i;
+      var pi = Math.PI/64;
+      for(i=0;i<4;i++) //---------------------- 4個點以x軸旋轉
+      {        
+         my_pointX[i].value=my_pointX[i].value-cx;
+         my_pointY[i].value=my_pointY[i].value-cy;
+         my_pointZ[i].value=my_pointZ[i].value-cz;
+         
+         my_pointX2[i]=my_pointX[i].value*Math.cos(pi)+my_pointZ[i].value*Math.sin(pi);
+         my_pointY2[i]=my_pointY[i].value
+         my_pointZ2[i]=-(my_pointX[i].value)*Math.sin(pi)+my_pointZ[i]*Math.cos(pi);
+      } 
+      for(i=0;i<4;i++) {
+         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
+         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+      }   
+      
+      Bezier_curve1()
+      // if(the_3d_draw_mode=="line")draw_cubic1();
+      // else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    }
+
+   //  動畫
+
+   function animated(){
+      animate = true;
+   }
   
+   function non_animated(){
+      animate = false;
+   }
   </script>
   <style>
   input.point {
@@ -563,9 +600,12 @@ function rotate_x() {
   <button type="button" onclick="BsplineCurve1()">畫出B-spline曲線1</button> 
   <button type="button" onclick="NonU_Bspline1()">畫出NonU_Bspline曲線2</button>
   &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-  <button type="button" onclick="rotate_x()">x軸旋轉</button>
+  <button type="button" onclick="draw_line_x()">x軸旋轉</button>
   <button type="button" onclick="rotate_y()">y軸旋轉</button>
   <button type="button" onclick="rotate_z()">z軸旋轉</button>
+  &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+  <button type="button" onclick="animated()">動畫</button>
+  <button type="button" onclick="non_animated()">靜止</button>
   </div>                                                              
   </body>
 </html>
