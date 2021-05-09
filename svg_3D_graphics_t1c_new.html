@@ -440,7 +440,21 @@ function refresh(){
         	interval = setInterval(rotate_x, 100);         
         }
     } 
-
+  
+    function draw_line_y() {
+    	if(interval) clearInterval(interval);
+        if(!animate) rotate_y();
+        else if(animate) {
+        	interval = setInterval(rotate_y, 100);         
+        }
+    }   
+  function draw_line_z() {
+    	if(interval) clearInterval(interval);
+        if(!animate) rotate_z();
+        else if(animate) {
+        	interval = setInterval(rotate_z, 100);         
+        }
+    } 
 
 /* 旋轉 */
 function rotate_x() {
@@ -449,7 +463,7 @@ function rotate_x() {
       var cz = 0
 
       var i;
-      var pi = Math.PI/64;
+      var pi = Math.PI/32;
       for(i=0;i<4;i++) //---------------------- 4個點以x軸旋轉
       {        
          my_pointX[i].value=my_pointX[i].value-cx;
@@ -477,7 +491,7 @@ function rotate_x() {
       var cz = 0
 
       var i;
-      var pi = Math.PI/64;
+      var pi = Math.PI/32;
       for(i=0;i<4;i++) //---------------------- 4個點以y軸旋轉
       {        
          my_pointX[i].value=my_pointX[i].value-cx;
@@ -487,7 +501,6 @@ function rotate_x() {
          my_pointX2[i]=my_pointX[i].value*Math.cos(pi)+my_pointZ[i].value*Math.sin(pi);
          my_pointY2[i]=my_pointY[i].value
          my_pointZ2[i]=-1*(my_pointX[i].value)*Math.sin(pi)+my_pointZ[i].value*Math.sin(pi);
-         console.log(my_pointZ2)
       } 
       for(i=0;i<4;i++) {
          my_pointX[i].value=parseInt(my_pointX2[i])+cx;
@@ -500,6 +513,34 @@ function rotate_x() {
       // else if(the_3d_draw_mode=="surface") draw_cubic2();      
     }
 
+
+    function rotate_z() {
+      var cx = 400
+      var cy = 300
+      var cz = 0
+
+      var i;
+      var pi = Math.PI/32;
+      for(i=0;i<4;i++) //---------------------- 4個點以z軸旋轉
+      {        
+         my_pointX[i].value=my_pointX[i].value-cx;
+         my_pointY[i].value=my_pointY[i].value-cy;
+         my_pointZ[i].value=my_pointZ[i].value-cz;
+         
+         my_pointX2[i]=my_pointX[i].value*Math.cos(pi)-my_pointY[i].value*Math.sin(pi);
+         my_pointY2[i]=my_pointX[i].value*Math.sin(pi)+my_pointY[i].value*Math.cos(pi)
+         my_pointZ2[i]=my_pointZ[i].value;
+      } 
+      for(i=0;i<4;i++) {
+         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
+         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+      }   
+      
+      Bezier_curve1()
+      // if(the_3d_draw_mode=="line")draw_cubic1();
+      // else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    }
    //  動畫
 
    function animated(){
@@ -602,8 +643,8 @@ function rotate_x() {
   <button type="button" onclick="NonU_Bspline1()">畫出NonU_Bspline曲線2</button>
   &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
   <button type="button" onclick="draw_line_x()">x軸旋轉</button>
-  <button type="button" onclick="rotate_y()">y軸旋轉</button>
-  <button type="button" onclick="rotate_z()">z軸旋轉</button>
+  <button type="button" onclick="draw_line_y()">y軸旋轉</button>
+  <button type="button" onclick="draw_line_z()">z軸旋轉</button>
   &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
   <button type="button" onclick="animated()">動畫</button>
   <button type="button" onclick="non_animated()">靜止</button>
