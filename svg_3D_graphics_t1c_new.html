@@ -7,7 +7,10 @@
   <script>
   var my_pointX = [];
   var my_pointY = [];
-  var my_pointZ = [0,0,0,0,0,0,0,0,0,0,0,0];
+  var my_pointZ = [];
+  var my_pointX2 = [];
+  var my_pointY2 = [];
+  var my_pointZ2 = [];
   var point_num = 0 ;
   var knot = [];
   var draw;
@@ -410,6 +413,38 @@
     point_num = parseInt(check_point.value)-1;
   }
   
+/* 旋轉 */
+function rotate_x() {
+      var cx = 400
+      var cy = 300
+      var cz = 0
+
+      var i;
+      var pi = Math.PI/64;
+      for(i=0;i<4;i++) //---------------------- 4個點以x軸旋轉
+      {        
+         my_pointX[i].value=my_pointX[i].value-cx;
+         my_pointY[i].value=my_pointY[i].value-cy;
+         my_pointZ[i].value=my_pointZ[i].value-cz;
+         
+         my_pointX2[i]=my_pointX[i].value;
+         my_pointY2[i]=my_pointY[i].value*Math.cos(pi)-my_pointZ[i].value*Math.sin(pi);
+         my_pointZ2[i]=my_pointY[i].value*Math.sin(pi)+my_pointZ[i].value*Math.cos(pi);
+      } 
+      for(i=0;i<4;i++) {
+         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
+         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+      }   
+         
+      Bezier_curve1()
+      console.log('1')
+      // if(the_3d_draw_mode=="line")draw_cubic1();
+      // else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    }
+
+
+  
   </script>
   <style>
   input.point {
@@ -419,14 +454,20 @@
   }
   </style>
   </head>
+
+
+
+
   <body onload="init()" onkeypress="draw_point2()">
   <div style="width:800px;height:600px;border:double;background-color:#ffff66">
     <svg id="drawing" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" 
       width="800" height="600" 
       onmousedown="draw_point(event)" onmousemove="show_mouse_coords(event)">
+      <line x1="0" y1="300" x2="800" y2="300" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="400" y1="0" x2="400" y2="600" style="stroke:rgb(255,0,0);stroke-width:2" />
     </svg>
   </div>
-  <div style="position: relative;left:0px;top:10px; width:100%; border: 3px solid #73AD21;">
+  <div style="position: relative;left:0px;top:10px; width:90%; border: 3px solid #73AD21; padding: 10px;">
   滑鼠座標:x= <input id="mouse_x" class="point" name="mouse_x" type="text"> 
            y= <input id="mouse_y" class="point" name="mouse_y" type="text"> <br>
   <input type="radio" id="c_point1" name="c_point" value="1" onclick="change_point(this)" checked>
@@ -487,12 +528,18 @@
   <input type="radio" id="c_point12" name="c_point" value="12" onclick="change_point(this)">
   點12:x= <input id="point_x12" class="point" name="point_x12" type="text"> 
        y= <input id="point_y12" class="point" name="point_y12" type="text">
-       z= <input id="point_z12" class="point" name="point_z12" type="text"><br>
+       z= <input id="point_z12" class="point" name="point_z12" type="text"><br><br>
+
+       &nbsp;&nbsp;
   <button type="button" onclick="my_clear()">清除所有點</button>
   <button type="button" onclick="Bezier_curve1()">畫出貝氏曲線1</button>
   <button type="button" onclick="BsplineCurve()">畫出B-spline曲線</button>
   <button type="button" onclick="BsplineCurve1()">畫出B-spline曲線1</button> 
   <button type="button" onclick="NonU_Bspline1()">畫出NonU_Bspline曲線2</button>
+  &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+  <button type="button" onclick="rotate_x()">x軸旋轉</button>
+  <button type="button" onclick="rotate_y()">y軸旋轉</button>
+  <button type="button" onclick="rotate_z()">z軸旋轉</button>
   </div>                                                              
   </body>
 </html>
