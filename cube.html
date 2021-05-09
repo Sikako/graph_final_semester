@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Cube
+    </title>
+  </head>
+  <body>
+    <button onclick="draw_cubic1()">畫正方體</button>&nbsp;&nbsp;
+    <button onclick="draw_cubic_x()">以x軸旋轉</button> &nbsp;&nbsp;
+    <button onclick="draw_cubic_y()">以y軸旋轉</button> &nbsp;&nbsp;
+    <button onclick="draw_cubic_z()">以z軸旋轉</button> &nbsp;&nbsp;
+
+    <button onclick="animation()">動畫</button> &nbsp;&nbsp;
+    <button onclick="stop_animation()">定格</button> &nbsp;&nbsp;
+    <br> 
+    <canvas id="my_canvas" width="700px" height="1000px" style="border: 1px solid red;"></canvas>
+
+
+    <script>
+      var animation_mode = "no_animate";
+      var interval;
+
+
+      var cx = 200, cy = 200, cz = 200;
+      // var x = 100, y = 100;
+      // var xm0 = 8, ym0 = 49;
+      var xx = [100,300,300,100,100,300,300,100];
+      var yy = [100,100,300,300,100,100,300,300];
+      var zz = [100,100,100,100,300,300,300,300];
+      var xx2 = [100,300,300,100,100,300,300,100];
+      var yy2 = [100,100,300,300,100,100,300,300];
+      var zz2 = [100,100,100,100,300,300,300,300];
+
+      var cubic_line = [[0,1],[1,2],[2,3],[3,0],
+                  [4,5],[5,6],[6,7],[7,4],
+                  [0,4],[1,5],[2,6],[3,7]];
+      var cubic_surface = [[0,3,2,1],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[0,4,7,3]];
+
+      function draw_line(x1,y1,x2,y2){
+        var c = document.getElementById("my_canvas");
+        var ctx = c.getContext("2d");
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.stroke();
+      }
+
+      function draw_cubic1(){
+        var i=0;
+        // clear_rect(0,0,1000,700);
+        clear_rect(0,0,1000,700);
+        for(i=0; i<12; i++){
+          draw_line(xx[cubic_line[i][0]], yy[cubic_line[i][0]], xx[cubic_line[i][1]], yy[cubic_line[i][1]]);
+        }
+      }
+
+      function rotate_x(){
+        var i;
+        var pi = Math.PI/64;
+        for(i=0;i<8;i++){
+          //旋轉點移到中心點
+          xx[i] = xx[i]-cx;
+          yy[i] = yy[i] -cy;
+          zz[i] = zz[i] -cz;
+          xx2[i] = xx[i];
+          yy2[i] = yy[i]*Math.cos(pi) - zz[i]*Math.sin(pi);
+          zz2[i] = yy[i]*Math.sin(pi) + zz[i]*Math.cos(pi);
+        }
+        for(i=0;i<8;i++){
+          xx[i] = xx2[i]+cx;
+          yy[i] = yy2[i]+cy;
+          zz[i] = zz2[i]+cz;
+        }
+        draw_cubic1();
+      }
+
+      function rotate_y(){
+        var i;
+        var pi = Math.PI/64;
+        for(i=0;i<8;i++){
+          //旋轉點移到中心點
+          xx[i] = xx[i]-cx;
+          yy[i] = yy[i]-cy;
+          zz[i] = zz[i]-cz;
+          xx2[i] = xx[i]*Math.cos(pi) + zz[i]*Math.sin(pi);
+          yy2[i] = yy[i];
+          zz2[i] = -xx[i]*Math.sin(pi) + zz[i]*Math.cos(pi);
+        }
+        for(i=0;i<8;i++){
+          xx[i] = xx2[i]+cx;
+          yy[i] = yy2[i]+cy;
+          zz[i] = zz2[i]+cz;
+        }
+        draw_cubic1();
+      }
+
+      function rotate_z(){
+        var i;
+        var pi = Math.PI/64;
+        for(i=0;i<8;i++){
+          //旋轉點移到中心點
+          xx[i] = xx[i]-cx;
+          yy[i] = yy[i] -cy;
+          zz[i] = zz[i] -cz;
+          xx2[i] = xx[i]*Math.cos(pi) - yy[i]*Math.sin(pi);
+          yy2[i] = xx[i]*Math.sin(pi) + yy[i]*Math.cos(pi);
+          zz2[i] = zz[i];
+        }
+        for(i=0;i<8;i++){
+          xx[i] = xx2[i]+cx;
+          yy[i] = yy2[i]+cy;
+          zz[i] = zz2[i]+cz;
+        }
+        draw_cubic1();
+      }
+
+      function draw_cubic_x(){
+       // if(interval) clearInterval(internal);
+        if(animation_mode == "no_animate") rotate_x();
+        else if(animation_mode == "animate")
+         console.log("要轉")
+         var internal = setInterval(rotate_x(),100);
+      }
+
+      function draw_cubic_y(){
+       // if(interval) clearInterval(internal);
+        if(animation_mode == "no_animate") rotate_y();
+        else if(animation_mode == "animate")
+         var internal = setInterval(rotate_y(),100);
+      }
+
+      function draw_cubic_z(){
+       // if(interval) clearInterval(internal);
+        if(animation_mode == "no_animate") rotate_z();
+        else if(animation_mode == "animate")
+        var internal = setInterval(rotate_z(),100);
+      }
+
+      function clear_rect(x,y,w,h){
+        var c = document.getElementById("my_canvas");
+        var ctx = c.getContext("2d");
+        ctx.clearRect(x,y,w,h);
+      }
+
+      function animation(){
+        animation_mode = "animate";
+        console.log(animation_mode)
+      }
+
+      function stop_animation(){
+        animation_mode = "no_animate";
+        console.log(animation_mode)
+      }
+
+    </script>
+
+
+  </body>
+
+
+</html>

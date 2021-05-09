@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="PSPad editor, www.pspad.com">
+  <title>draw 3D cube</title>
+  <script>
+    var cx = 200, cy = 200, cz = 200;
+    var xx = [100,300,300,100,100,300,300,100];
+    var yy = [100,100,300,300,100,100,300,300];
+    var zz = [100,100,100,100,300,300,300,300];
+    var xx2 = [100,300,300,100,100,300,300,100];
+    var yy2 = [100,100,300,300,100,100,300,300];
+    var zz2 = [100,100,100,100,300,300,300,300];
+    var cubic_line = [[0,1],[1,2],[2,3],[3,0], [4,5],[5,6],[6,7],[7,4], [0,4],[1,5],[2,6],[3,7]];
+    var cubic_surface = [[0,3,2,1],[4,5,6,7],[0,1,5,4], [1,2,6,5],[2,3,7,6],[0,4,7,3]];
+    var draw_mode="0";
+    var interval;
+    var animation_mode="no_animate";
+    var the_3d_draw_mode = "line";
+    // ------------------------------- draw_line ------------------------------
+    function draw_line(x1,y1,x2,y2) {
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.strokeStyle = document.getElementById("my_color1").value;
+      ctx.beginPath();
+      ctx.moveTo(x1,y1);
+      ctx.lineTo(x2,y2);
+      ctx.stroke();
+    } 
+    // ------------------------------- draw_cubic1 : cube line ------------------------------
+    function draw_cubic1() {
+      var i=0;
+      clear_rect(0,0,1000,700);
+      for(i=0; i<12; i++) {
+       draw_line(xx[cubic_line[i][0]], yy[cubic_line[i][0]], xx[cubic_line[i][1]], yy[cubic_line[i][1]]);
+      }      
+    }
+    // ------------------------------- draw_cubic_x : cube line x rotate ------------------------------
+    function draw_cubic_x() {
+    	if(interval) clearInterval(interval);
+        if(animation_mode == "no_animate") rotate_x();
+        else if(animation_mode == "animate") {
+        	interval = setInterval(rotate_x, 100);         
+        }
+    } 
+    // ------------------------------- draw_cubic_y : cube line y rotate ------------------------------
+    function draw_cubic_y() {
+    	if(interval) clearInterval(interval);
+        if(animation_mode == "no_animate") rotate_y();
+        else if(animation_mode == "animate") {
+        	interval = setInterval(rotate_y, 100);         
+        }
+    }
+    // ------------------------------- draw_cubic_z : cube line z rotate ------------------------------
+    function draw_cubic_z() {
+    	if(interval) clearInterval(interval);
+        if(animation_mode == "no_animate") rotate_z();
+        else if(animation_mode == "animate") {
+        	interval = setInterval(rotate_z, 100);         
+        }
+    }    
+    // ------------------------------- draw_cubic_x : cube line x rotate ------------------------------
+    function rotate_x() {
+      var i;
+      var pi = Math.PI/64;
+      for(i=0;i<8;i++) //---------------------- 8個點以x軸旋轉
+         {        
+         xx[i]=xx[i]-cx;
+         yy[i]=yy[i]-cy;
+         zz[i]=zz[i]-cz;
+         xx2[i]=xx[i];
+         yy2[i]=yy[i]*Math.cos(pi)-zz[i]*Math.sin(pi);
+         zz2[i]=yy[i]*Math.sin(pi)+zz[i]*Math.cos(pi);
+         } 
+      for(i=0;i<8;i++) 
+         {
+         xx[i]=xx2[i]+cx;
+         yy[i]=yy2[i]+cy;
+         zz[i]=zz2[i]+cz;
+         }   
+         
+      if(the_3d_draw_mode=="line")draw_cubic1();
+      else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    }
+    // ------------------------------- draw_cubic_y : cube line y rotate ---------------
+    function rotate_y() {
+      var i;
+      var pi = Math.PI/64;
+      for(i=0;i<8;i++) //---------------------- 8個點以y軸旋轉
+         {        
+          xx[i]=xx[i]-cx;
+          yy[i]=yy[i]-cy;
+          zz[i]=zz[i]-cz;
+          xx2[i]=xx[i]*Math.cos(pi)+zz[i]*Math.sin(pi);
+          yy2[i]=yy[i];
+          zz2[i]=-xx[i]*Math.sin(pi)+zz[i]*Math.cos(pi);
+         } 
+      for(i=0;i<8;i++) 
+         {
+         xx[i]=xx2[i]+cx;
+         yy[i]=yy2[i]+cy;
+         zz[i]=zz2[i]+cz;
+         }          
+
+      if(the_3d_draw_mode=="line")draw_cubic1();
+      else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    } 
+    // ------------------------------- draw_cubic_z : cube line z rotate ---------------  
+    function rotate_z() {
+      var i;
+      var pi = Math.PI/64;
+      for(i=0;i<8;i++) //---------------------- 8個點以z軸旋轉
+         {        
+          xx[i]=xx[i]-cx;
+          yy[i]=yy[i]-cy;
+          zz[i]=zz[i]-cz;
+          xx2[i]=xx[i]*Math.cos(pi)-yy[i]*Math.sin(pi);
+          yy2[i]=xx[i]*Math.sin(pi)+yy[i]*Math.cos(pi);
+          zz2[i]=zz[i];
+         } 
+      for(i=0;i<8;i++) 
+         {
+         xx[i]=xx2[i]+cx;
+         yy[i]=yy2[i]+cy;
+         zz[i]=zz2[i]+cz;
+         }          
+     
+      if(the_3d_draw_mode=="line")draw_cubic1();
+      else if(the_3d_draw_mode=="surface") draw_cubic2();     
+    }
+
+
+    function isAnimate() {
+      animation_mode = "animate"
+    }
+
+    function noAnimate() {
+      animation_mode = "no_animate"
+    }
+
+    function isLine() {
+      the_3d_draw_mode = "line"
+    }
+
+    function isSurface() {
+      the_3d_draw_mode = "surface"
+    }
+
+    function init() {
+      if(the_3d_draw_mode=="line")draw_cubic1();
+      else if(the_3d_draw_mode=="surface") draw_cubic2();  
+    }
+
+    // ------------------------------- clear_rect : clear canvas --------------- 
+    function clear_rect(x,y,w,h) {
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.clearRect(x,y,w,h);
+    } 
+   //  -----------------------
+    function cross_product(v1,v2,v3,w1,w2,w3) { 
+       var x, y, z;
+       var normal = [];
+       x=v2*w3-v3*w2;
+       y=v3*w1-v1*w3;
+       z=v1*w2-v2*w1;
+       normal[0]=x;
+       normal[1]=y;
+       normal[2]=z;
+       return normal;
+    } 
+    function dot_product(v1,v2,v3,w1,w2,w3) { 
+       return ((v1*w1)+(v2*w2)+(v3*w3));  
+    } 
+    function surface_direction(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4) {
+       var v1,v2,v3,w1,w2,w3,dot_result;
+       var n=[];
+      //  兩個向量
+       v1 = x2-x1; v2=y2-y1; v3=z2-z1;
+       w1 = x4-x1; w2=y4-y1; w3=z4-z1;
+       n=cross_product(v1,v2,v3,w1,w2,w3); // 做外積得法向量
+       //判斷法向量有沒有指出屏幕 -> 看得到看不到
+       dot_result=dot_product(0,0,-1.0,n[0],n[1],n[2]);
+       if(dot_result>0) return true;
+       else return false;
+    } 
+    function draw_cubic2() {
+      var i=0;
+      var my_color=["red","blue","green","BlueViolet","DarkOrange","Navy"];
+      clear_rect(0,0,1000,700);
+      for(i=5; i>=0; i--) {
+         if(surface_direction(xx[cubic_surface[i][0]],yy[cubic_surface[i][0]],zz[cubic_surface[i][0]],    
+                              xx[cubic_surface[i][1]],yy[cubic_surface[i][1]],zz[cubic_surface[i][1]],
+                              xx[cubic_surface[i][2]],yy[cubic_surface[i][2]],zz[cubic_surface[i][2]],
+                              xx[cubic_surface[i][3]] ,yy[cubic_surface[i][3]],zz[cubic_surface[i][3]]) )
+         draw_polygon(xx[cubic_surface[i][0]],yy[cubic_surface[i][0]],    
+                      xx[cubic_surface[i][1]],yy[cubic_surface[i][1]],
+                      xx[cubic_surface[i][2]],yy[cubic_surface[i][2]],
+                      xx[cubic_surface[i][3]],yy[cubic_surface[i][3]],my_color[i]);
+      }      
+    } 
+    function draw_polygon(x1,y1,x2,y2,x3,y3,x4,y4,color){
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.moveTo(x1,y1);
+      ctx.lineTo(x2,y2);
+      ctx.lineTo(x3,y3);
+      ctx.lineTo(x4,y4);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fillStyle = color;
+      ctx.fill();
+    }           
+  </script>
+  </head>
+  <body>
+    <button onclick="init()">畫立方體</button> &nbsp;&nbsp;
+    <button onclick="draw_cubic_x()">以x軸旋轉</button> &nbsp;&nbsp;
+    <button onclick="draw_cubic_y()">以y軸旋轉</button> &nbsp;&nbsp;
+    <button onclick="draw_cubic_z()">以z軸旋轉</button> &nbsp;&nbsp;
+    <button onclick="isAnimate()">動畫</button> &nbsp;&nbsp;
+    <button onclick="noAnimate()">靜止</button> &nbsp;&nbsp;
+    <button onclick="isLine()()">線</button> &nbsp;&nbsp;
+    <button onclick="isSurface()">面</button> &nbsp;&nbsp;
+    <br>
+    
+    <canvas id="myCanvas" width="1000" height="700" style="border:1px solid #d3d3d3;" >
+    </canvas><br>
+    color: <input id="my_color1" type="color" name="favcolor">&nbsp;&nbsp;&nbsp; 
+  </body>
+</html>
