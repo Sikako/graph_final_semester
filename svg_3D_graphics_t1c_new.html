@@ -7,23 +7,67 @@
   <script>
   var my_pointX = [];
   var my_pointY = [];
+  var my_pointZ = [];
+  var my_pointX2 = [];
+  var my_pointY2 = [];
+  var my_pointZ2 = [];
+  var iniPointX = [];
+  var iniPointY = [];
+  var iniPointZ = [];
   var point_num = 0 ;
   var knot = [];
   var draw;
+  var animate= false;
+  var interval;
   
   function init(){        
-    my_pointX[0] = document.getElementById("point_x1"); my_pointY[0] = document.getElementById("point_y1");
-    my_pointX[1] = document.getElementById("point_x2"); my_pointY[1] = document.getElementById("point_y2");
-    my_pointX[2] = document.getElementById("point_x3"); my_pointY[2] = document.getElementById("point_y3");
-    my_pointX[3] = document.getElementById("point_x4"); my_pointY[3] = document.getElementById("point_y4");
-    my_pointX[4] = document.getElementById("point_x5"); my_pointY[4] = document.getElementById("point_y5");
-    my_pointX[5] = document.getElementById("point_x6"); my_pointY[5] = document.getElementById("point_y6");
-    my_pointX[6] = document.getElementById("point_x7"); my_pointY[6] = document.getElementById("point_y7");
-    my_pointX[7] = document.getElementById("point_x8"); my_pointY[7] = document.getElementById("point_y8");
-    my_pointX[8] = document.getElementById("point_x9"); my_pointY[8] = document.getElementById("point_y9");
-    my_pointX[9] = document.getElementById("point_x10"); my_pointY[9] = document.getElementById("point_y10");
-    my_pointX[10] = document.getElementById("point_x11"); my_pointY[10] = document.getElementById("point_y11");
-    my_pointX[11] = document.getElementById("point_x12"); my_pointY[11] = document.getElementById("point_y12");
+    my_pointX[0] = document.getElementById("point_x1"); 
+    my_pointY[0] = document.getElementById("point_y1");
+    my_pointZ[0] = document.getElementById("point_z1");
+
+    my_pointX[1] = document.getElementById("point_x2"); 
+    my_pointY[1] = document.getElementById("point_y2");
+    my_pointZ[1] = document.getElementById("point_z2");
+
+    my_pointX[2] = document.getElementById("point_x3"); 
+    my_pointY[2] = document.getElementById("point_y3");
+    my_pointZ[2] = document.getElementById("point_z3");
+
+    my_pointX[3] = document.getElementById("point_x4");
+    my_pointY[3] = document.getElementById("point_y4");
+    my_pointZ[3] = document.getElementById("point_z4");
+
+    my_pointX[4] = document.getElementById("point_x5"); 
+    my_pointY[4] = document.getElementById("point_y5");
+    my_pointZ[4] = document.getElementById("point_z5");
+
+    my_pointX[5] = document.getElementById("point_x6");
+    my_pointY[5] = document.getElementById("point_y6");
+    my_pointZ[5] = document.getElementById("point_z6");
+
+    my_pointX[6] = document.getElementById("point_x7"); 
+    my_pointY[6] = document.getElementById("point_y7");
+    my_pointZ[6] = document.getElementById("point_z7");
+
+    my_pointX[7] = document.getElementById("point_x8");
+    my_pointY[7] = document.getElementById("point_y8");
+    my_pointZ[7] = document.getElementById("point_z8");
+
+    my_pointX[8] = document.getElementById("point_x9");
+    my_pointY[8] = document.getElementById("point_y9");
+    my_pointZ[8] = document.getElementById("point_z9");
+
+    my_pointX[9] = document.getElementById("point_x10"); 
+    my_pointY[9] = document.getElementById("point_y10");
+    my_pointZ[9] = document.getElementById("point_z10");
+
+    my_pointX[10] = document.getElementById("point_x11");
+    my_pointY[10] = document.getElementById("point_y11");
+    my_pointZ[10] = document.getElementById("point_z11");
+
+    my_pointX[11] = document.getElementById("point_x12"); 
+    my_pointY[11] = document.getElementById("point_y12");
+    my_pointZ[11] = document.getElementById("point_z12");
     draw = SVG('drawing');
   }  
   function my_clear() {
@@ -62,8 +106,9 @@
  function draw_point(e) {
     if(e.button == 0) my_cross(e.clientX,e.clientY,"blue");
     //else if (e.button == 2) my_circle(e.clientX,e.clientY,"green");
-    my_pointX[point_num%12].value = e.clientX;
-    my_pointY[point_num%12].value = e.clientY;
+    my_pointX[point_num%12].value = iniPointX[point_num%12] =e.clientX;
+    my_pointY[point_num%12].value = iniPointY[point_num%12] = e.clientY;
+    my_pointZ[point_num%12].value = iniPointZ[point_num%12] = 0
     point_num ++;
     if(((point_num+1)%12) == 0) document.getElementById("c_point12").checked = true;
     else                    document.getElementById("c_point" + ((point_num+1)%12)).checked = true;
@@ -74,9 +119,24 @@
     my_circle(my_pointX[point_num%12].value,my_pointY[point_num%12].value,"green");
     point_num ++;
  } 
+
+function refresh(){
+   var i
+   var x
+   var y
+   draw.clear();
+   for(i=0; i<4; i++){
+      x = iniPointX[i]
+      y = iniPointY[i]
+      my_cross(x,y,"blue")                
+  }
+}
+
  function Bezier_curve1() {
    var i,u,u1,uu,xxx0,yyy0,xxx,yyy;
    var xx =[], yy=[];
+
+   refresh()
    for(i=0;i<4;i++)
       {
        xx[i]=parseFloat(my_pointX[i].value);
@@ -373,6 +433,123 @@
     point_num = parseInt(check_point.value)-1;
   }
   
+  function draw_line_x() {
+    	if(interval) clearInterval(interval);
+        if(!animate) rotate_x();
+        else if(animate) {
+        	interval = setInterval(rotate_x, 100);         
+        }
+    } 
+  
+    function draw_line_y() {
+    	if(interval) clearInterval(interval);
+        if(!animate) rotate_y();
+        else if(animate) {
+        	interval = setInterval(rotate_y, 100);         
+        }
+    }   
+  function draw_line_z() {
+    	if(interval) clearInterval(interval);
+        if(!animate) rotate_z();
+        else if(animate) {
+        	interval = setInterval(rotate_z, 100);         
+        }
+    } 
+
+/* 旋轉 */
+function rotate_x() {
+      var cx = 400
+      var cy = 300
+      var cz = 0
+
+      var i;
+      var pi = Math.PI/32;
+      for(i=0;i<4;i++) //---------------------- 4個點以x軸旋轉
+      {        
+         my_pointX[i].value=my_pointX[i].value-cx;
+         my_pointY[i].value=my_pointY[i].value-cy;
+         my_pointZ[i].value=my_pointZ[i].value-cz;
+         
+         my_pointX2[i]=my_pointX[i].value;
+         my_pointY2[i]=my_pointY[i].value*Math.cos(pi)-my_pointZ[i].value*Math.sin(pi);
+         my_pointZ2[i]=my_pointY[i].value*Math.sin(pi)+my_pointZ[i].value*Math.cos(pi);
+      } 
+      for(i=0;i<4;i++) {
+         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
+         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+      }   
+      
+      Bezier_curve1()
+      // if(the_3d_draw_mode=="line")draw_cubic1();
+      // else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    }
+
+    function rotate_y() {
+      var cx = 400
+      var cy = 300
+      var cz = 0
+
+      var i;
+      var pi = Math.PI/32;
+      for(i=0;i<4;i++) //---------------------- 4個點以y軸旋轉
+      {        
+         my_pointX[i].value=my_pointX[i].value-cx;
+         my_pointY[i].value=my_pointY[i].value-cy;
+         my_pointZ[i].value=my_pointZ[i].value-cz;
+         
+         my_pointX2[i]=my_pointX[i].value*Math.cos(pi)+my_pointZ[i].value*Math.sin(pi);
+         my_pointY2[i]=my_pointY[i].value
+         my_pointZ2[i]=-1*(my_pointX[i].value)*Math.sin(pi)+my_pointZ[i].value*Math.sin(pi);
+      } 
+      for(i=0;i<4;i++) {
+         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
+         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+      }   
+      
+      Bezier_curve1()
+      // if(the_3d_draw_mode=="line")draw_cubic1();
+      // else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    }
+
+
+    function rotate_z() {
+      var cx = 400
+      var cy = 300
+      var cz = 0
+
+      var i;
+      var pi = Math.PI/32;
+      for(i=0;i<4;i++) //---------------------- 4個點以z軸旋轉
+      {        
+         my_pointX[i].value=my_pointX[i].value-cx;
+         my_pointY[i].value=my_pointY[i].value-cy;
+         my_pointZ[i].value=my_pointZ[i].value-cz;
+         
+         my_pointX2[i]=my_pointX[i].value*Math.cos(pi)-my_pointY[i].value*Math.sin(pi);
+         my_pointY2[i]=my_pointX[i].value*Math.sin(pi)+my_pointY[i].value*Math.cos(pi)
+         my_pointZ2[i]=my_pointZ[i].value;
+      } 
+      for(i=0;i<4;i++) {
+         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
+         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+      }   
+      
+      Bezier_curve1()
+      // if(the_3d_draw_mode=="line")draw_cubic1();
+      // else if(the_3d_draw_mode=="surface") draw_cubic2();      
+    }
+   //  動畫
+
+   function animated(){
+      animate = true;
+   }
+  
+   function non_animated(){
+      animate = false;
+   }
   </script>
   <style>
   input.point {
@@ -382,45 +559,95 @@
   }
   </style>
   </head>
+
+
+
+
   <body onload="init()" onkeypress="draw_point2()">
   <div style="width:800px;height:600px;border:double;background-color:#ffff66">
     <svg id="drawing" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" 
       width="800" height="600" 
       onmousedown="draw_point(event)" onmousemove="show_mouse_coords(event)">
+      <!-- <line x1="0" y1="300" x2="800" y2="300" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="400" y1="0" x2="400" y2="600" style="stroke:rgb(255,0,0);stroke-width:2" /> -->
     </svg>
   </div>
-  <div style="position: relative;left:0px;top:10px; width:830px; border: 3px solid #73AD21;">
+  <div style="position: relative;left:0px;top:10px; width:90%; border: 3px solid #73AD21; padding: 10px;">
   滑鼠座標:x= <input id="mouse_x" class="point" name="mouse_x" type="text"> 
            y= <input id="mouse_y" class="point" name="mouse_y" type="text"> <br>
-  <input type="radio" id="c_point1" name="c_point" value="1" onclick="change_point(this)" checked>點1:x= <input id="point_x1" class="point" name="point_x1" type="text"> y=
-           <input id="point_y1" class="point" name="point_y1" type="text">
-  <input type="radio" id="c_point2" name="c_point" value="2" onclick="change_point(this)">點2:x= <input id="point_x2" class="point" name="point_x2" type="text"> y=
-           <input id="point_y2" class="point" name="point_y2" type="text">
-  <input type="radio" id="c_point3" name="c_point" value="3" onclick="change_point(this)">點3:x= <input id="point_x3" class="point" name="point_x3" type="text"> y=
-           <input id="point_y3" class="point" name="point_y3" type="text">
-  <input type="radio" id="c_point4" name="c_point" value="4" onclick="change_point(this)">點4:x= <input id="point_x4" class="point" name="point_x4" type="text"> y=
-           <input id="point_y4" class="point" name="point_y4" type="text"><br> 
-  <input type="radio" id="c_point5" name="c_point" value="5" onclick="change_point(this)">點5:x= <input id="point_x5" class="point" name="point_x5" type="text"> y=
-           <input id="point_y5" class="point" name="point_y5" type="text">
-  <input type="radio" id="c_point6" name="c_point" value="6" onclick="change_point(this)">點6:x= <input id="point_x6" class="point" name="point_x6" type="text"> y=
-           <input id="point_y6" class="point" name="point_y6" type="text">
-  <input type="radio" id="c_point7" name="c_point" value="7" onclick="change_point(this)">點7:x= <input id="point_x7" class="point" name="point_x7" type="text"> y=
-           <input id="point_y7" class="point" name="point_y7" type="text">
-  <input type="radio" id="c_point8" name="c_point" value="8" onclick="change_point(this)">點8:x= <input id="point_x8" class="point" name="point_x8" type="text"> y=
-           <input id="point_y8" class="point" name="point_y8" type="text"><br> 
-  <input type="radio" id="c_point9" name="c_point" value="9" onclick="change_point(this)">點9:x= <input id="point_x9" class="point" name="point_x9" type="text"> y=
-           <input id="point_y9" class="point" name="point_y9" type="text">
-  <input type="radio" id="c_point10" name="c_point" value="10" onclick="change_point(this)">點10:x= <input id="point_x10" class="point" name="point_x10" type="text"> y=
-           <input id="point_y10" class="point" name="point_y10" type="text"> 
-  <input type="radio" id="c_point11" name="c_point" value="11" onclick="change_point(this)">點11:x= <input id="point_x11" class="point" name="point_x11" type="text"> y=
-           <input id="point_y11" class="point" name="point_y11" type="text">
-  <input type="radio" id="c_point12" name="c_point" value="12" onclick="change_point(this)">點12:x= <input id="point_x12" class="point" name="point_x12" type="text"> y=
-           <input id="point_y12" class="point" name="point_y12" type="text"><br>           
+  <input type="radio" id="c_point1" name="c_point" value="1" onclick="change_point(this)" checked>
+  點1:x= <input id="point_x1" class="point" name="point_x1" type="text"> 
+      y= <input id="point_y1" class="point" name="point_y1" type="text"> 
+      z= <input id="point_z1" class="point" name="point_z1" type="text">
+
+  <input type="radio" id="c_point2" name="c_point" value="2" onclick="change_point(this)">
+  點2:x= <input id="point_x2" class="point" name="point_x2" type="text"> 
+      y= <input id="point_y2" class="point" name="point_y2" type="text">
+      z= <input id="point_z2" class="point" name="point_z2" type="text">
+
+  <input type="radio" id="c_point3" name="c_point" value="3" onclick="change_point(this)">
+  點3:x= <input id="point_x3" class="point" name="point_x3" type="text">
+      y= <input id="point_y3" class="point" name="point_y3" type="text">
+      z= <input id="point_z3" class="point" name="point_z3" type="text">
+  
+  <input type="radio" id="c_point4" name="c_point" value="4" onclick="change_point(this)">
+  點&nbsp;&nbsp;4:x= <input id="point_x4" class="point" name="point_x4" type="text"> 
+      y= <input id="point_y4" class="point" name="point_y4" type="text">
+      z= <input id="point_z4" class="point" name="point_z4" type="text">
+
+  <input type="radio" id="c_point5" name="c_point" value="5" onclick="change_point(this)">
+  點&nbsp;&nbsp;5:x= <input id="point_x5" class="point" name="point_x5" type="text">
+      y= <input id="point_y5" class="point" name="point_y5" type="text">
+      z= <input id="point_z5" class="point" name="point_z5" type="text">
+
+  <input type="radio" id="c_point6" name="c_point" value="6" onclick="change_point(this)">
+  點&nbsp;&nbsp;6:x= <input id="point_x6" class="point" name="point_x6" type="text"> 
+      y= <input id="point_y6" class="point" name="point_y6" type="text">
+      z= <input id="point_z6" class="point" name="point_z6" type="text"><br>
+
+  <input type="radio" id="c_point7" name="c_point" value="7" onclick="change_point(this)">
+  點7:x= <input id="point_x7" class="point" name="point_x7" type="text">
+      y= <input id="point_y7" class="point" name="point_y7" type="text">
+      z= <input id="point_z7" class="point" name="point_z7" type="text">
+
+  <input type="radio" id="c_point8" name="c_point" value="8" onclick="change_point(this)">
+  點8:x= <input id="point_x8" class="point" name="point_x8" type="text"> 
+      y= <input id="point_y8" class="point" name="point_y8" type="text">
+      z= <input id="point_z8" class="point" name="point_z8" type="text">
+
+  <input type="radio" id="c_point9" name="c_point" value="9" onclick="change_point(this)">
+  點9:x= <input id="point_x9" class="point" name="point_x9" type="text"> 
+      y= <input id="point_y9" class="point" name="point_y9" type="text">
+      z= <input id="point_z9" class="point" name="point_z9" type="text">
+
+  <input type="radio" id="c_point10" name="c_point" value="10" onclick="change_point(this)">
+  點10:x= <input id="point_x10" class="point" name="point_x10" type="text"> 
+       y= <input id="point_y10" class="point" name="point_y10" type="text"> 
+       z= <input id="point_z10" class="point" name="point_z10" type="text">
+       
+  <input type="radio" id="c_point11" name="c_point" value="11" onclick="change_point(this)">
+  點11:x= <input id="point_x11" class="point" name="point_x11" type="text"> 
+       y= <input id="point_y11" class="point" name="point_y11" type="text">
+       z= <input id="point_z11" class="point" name="point_z11" type="text">
+
+  <input type="radio" id="c_point12" name="c_point" value="12" onclick="change_point(this)">
+  點12:x= <input id="point_x12" class="point" name="point_x12" type="text"> 
+       y= <input id="point_y12" class="point" name="point_y12" type="text">
+       z= <input id="point_z12" class="point" name="point_z12" type="text"><br><br>
+
+       &nbsp;&nbsp;
   <button type="button" onclick="my_clear()">清除所有點</button>
   <button type="button" onclick="Bezier_curve1()">畫出貝氏曲線1</button>
   <button type="button" onclick="BsplineCurve()">畫出B-spline曲線</button>
   <button type="button" onclick="BsplineCurve1()">畫出B-spline曲線1</button> 
   <button type="button" onclick="NonU_Bspline1()">畫出NonU_Bspline曲線2</button>
+  &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+  <button type="button" onclick="draw_line_x()">x軸旋轉</button>
+  <button type="button" onclick="draw_line_y()">y軸旋轉</button>
+  <button type="button" onclick="draw_line_z()">z軸旋轉</button>
+  &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+  <button type="button" onclick="animated()">動畫</button>
+  <button type="button" onclick="non_animated()">靜止</button>
   </div>                                                              
   </body>
 </html>
