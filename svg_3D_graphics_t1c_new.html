@@ -14,6 +14,8 @@
   var point_num = 0 ;
   var knot = [];
   var draw;
+  var animate= false;
+  var interval;
   
   function init(){        
     my_pointX[0] = document.getElementById("point_x1"); 
@@ -114,9 +116,24 @@
     my_circle(my_pointX[point_num%12].value,my_pointY[point_num%12].value,"green");
     point_num ++;
  } 
+
+function refresh(){
+   var i
+   var x
+   var y
+   draw.clear();
+   for(i=0; i<4; i++){
+      x = parseInt(my_pointX[i].values)
+      y = parseInt(my_pointY[i].value)
+      my_cross(x,y,'blue')                  
+  }
+}
+
  function Bezier_curve1() {
    var i,u,u1,uu,xxx0,yyy0,xxx,yyy;
    var xx =[], yy=[];
+
+   refresh()
    for(i=0;i<4;i++)
       {
        xx[i]=parseFloat(my_pointX[i].value);
@@ -413,6 +430,15 @@
     point_num = parseInt(check_point.value)-1;
   }
   
+  function draw_line_x() {
+    	if(interval) clearInterval(interval);
+        if(!animate) rotate_x();
+        else if(animate) {
+        	interval = setInterval(rotate_x, 100);         
+        }
+    } 
+
+
 /* 旋轉 */
 function rotate_x() {
       var cx = 400
@@ -436,7 +462,7 @@ function rotate_x() {
          my_pointY[i].value=parseInt(my_pointY2[i])+cy;
          my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
       }   
-         
+      
       Bezier_curve1()
       console.log('1')
       // if(the_3d_draw_mode=="line")draw_cubic1();
@@ -463,8 +489,8 @@ function rotate_x() {
     <svg id="drawing" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" 
       width="800" height="600" 
       onmousedown="draw_point(event)" onmousemove="show_mouse_coords(event)">
-      <line x1="0" y1="300" x2="800" y2="300" style="stroke:rgb(255,0,0);stroke-width:2" />
-      <line x1="400" y1="0" x2="400" y2="600" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <!-- <line x1="0" y1="300" x2="800" y2="300" style="stroke:rgb(255,0,0);stroke-width:2" />
+      <line x1="400" y1="0" x2="400" y2="600" style="stroke:rgb(255,0,0);stroke-width:2" /> -->
     </svg>
   </div>
   <div style="position: relative;left:0px;top:10px; width:90%; border: 3px solid #73AD21; padding: 10px;">
