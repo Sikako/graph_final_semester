@@ -478,7 +478,7 @@ function rotate_x() {
 
       var i;
       var pi = Math.PI/64;
-      for(i=0;i<4;i++) //---------------------- 4個點以x軸旋轉
+      for(i=0;i<4;i++) //---------------------- 4個點以y軸旋轉
       {        
          my_pointX[i].value=my_pointX[i].value-cx;
          my_pointY[i].value=my_pointY[i].value-cy;
@@ -486,7 +486,8 @@ function rotate_x() {
          
          my_pointX2[i]=my_pointX[i].value*Math.cos(pi)+my_pointZ[i].value*Math.sin(pi);
          my_pointY2[i]=my_pointY[i].value
-         my_pointZ2[i]=-(my_pointX[i].value)*Math.sin(pi)+my_pointZ[i]*Math.cos(pi);
+         my_pointZ2[i]=-1*(my_pointX[i].value)*Math.sin(pi)+my_pointZ[i].value*Math.sin(pi);
+         console.log(my_pointZ2)
       } 
       for(i=0;i<4;i++) {
          my_pointX[i].value=parseInt(my_pointX2[i])+cx;
