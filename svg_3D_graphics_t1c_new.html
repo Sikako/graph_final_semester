@@ -7,6 +7,7 @@
   <script>
   var my_pointX = [];
   var my_pointY = [];
+  var my_pointZ = [0,0,0,0,0,0,0,0,0,0,0,0];
   var point_num = 0 ;
   var knot = [];
   var draw;
@@ -389,33 +390,68 @@
       onmousedown="draw_point(event)" onmousemove="show_mouse_coords(event)">
     </svg>
   </div>
-  <div style="position: relative;left:0px;top:10px; width:830px; border: 3px solid #73AD21;">
+  <div style="position: relative;left:0px;top:10px; width:100%; border: 3px solid #73AD21;">
   滑鼠座標:x= <input id="mouse_x" class="point" name="mouse_x" type="text"> 
            y= <input id="mouse_y" class="point" name="mouse_y" type="text"> <br>
-  <input type="radio" id="c_point1" name="c_point" value="1" onclick="change_point(this)" checked>點1:x= <input id="point_x1" class="point" name="point_x1" type="text"> y=
-           <input id="point_y1" class="point" name="point_y1" type="text">
-  <input type="radio" id="c_point2" name="c_point" value="2" onclick="change_point(this)">點2:x= <input id="point_x2" class="point" name="point_x2" type="text"> y=
-           <input id="point_y2" class="point" name="point_y2" type="text">
-  <input type="radio" id="c_point3" name="c_point" value="3" onclick="change_point(this)">點3:x= <input id="point_x3" class="point" name="point_x3" type="text"> y=
-           <input id="point_y3" class="point" name="point_y3" type="text">
-  <input type="radio" id="c_point4" name="c_point" value="4" onclick="change_point(this)">點4:x= <input id="point_x4" class="point" name="point_x4" type="text"> y=
-           <input id="point_y4" class="point" name="point_y4" type="text"><br> 
-  <input type="radio" id="c_point5" name="c_point" value="5" onclick="change_point(this)">點5:x= <input id="point_x5" class="point" name="point_x5" type="text"> y=
-           <input id="point_y5" class="point" name="point_y5" type="text">
-  <input type="radio" id="c_point6" name="c_point" value="6" onclick="change_point(this)">點6:x= <input id="point_x6" class="point" name="point_x6" type="text"> y=
-           <input id="point_y6" class="point" name="point_y6" type="text">
-  <input type="radio" id="c_point7" name="c_point" value="7" onclick="change_point(this)">點7:x= <input id="point_x7" class="point" name="point_x7" type="text"> y=
-           <input id="point_y7" class="point" name="point_y7" type="text">
-  <input type="radio" id="c_point8" name="c_point" value="8" onclick="change_point(this)">點8:x= <input id="point_x8" class="point" name="point_x8" type="text"> y=
-           <input id="point_y8" class="point" name="point_y8" type="text"><br> 
-  <input type="radio" id="c_point9" name="c_point" value="9" onclick="change_point(this)">點9:x= <input id="point_x9" class="point" name="point_x9" type="text"> y=
-           <input id="point_y9" class="point" name="point_y9" type="text">
-  <input type="radio" id="c_point10" name="c_point" value="10" onclick="change_point(this)">點10:x= <input id="point_x10" class="point" name="point_x10" type="text"> y=
-           <input id="point_y10" class="point" name="point_y10" type="text"> 
-  <input type="radio" id="c_point11" name="c_point" value="11" onclick="change_point(this)">點11:x= <input id="point_x11" class="point" name="point_x11" type="text"> y=
-           <input id="point_y11" class="point" name="point_y11" type="text">
-  <input type="radio" id="c_point12" name="c_point" value="12" onclick="change_point(this)">點12:x= <input id="point_x12" class="point" name="point_x12" type="text"> y=
-           <input id="point_y12" class="point" name="point_y12" type="text"><br>           
+  <input type="radio" id="c_point1" name="c_point" value="1" onclick="change_point(this)" checked>
+  點1:x= <input id="point_x1" class="point" name="point_x1" type="text"> 
+      y= <input id="point_y1" class="point" name="point_y1" type="text"> 
+      z= <input id="point_z1" class="point" name="point_z1" type="text">
+
+  <input type="radio" id="c_point2" name="c_point" value="2" onclick="change_point(this)">
+  點2:x= <input id="point_x2" class="point" name="point_x2" type="text"> 
+      y= <input id="point_y2" class="point" name="point_y2" type="text">
+      z= <input id="point_z2" class="point" name="point_z2" type="text">
+
+  <input type="radio" id="c_point3" name="c_point" value="3" onclick="change_point(this)">
+  點3:x= <input id="point_x3" class="point" name="point_x3" type="text">
+      y= <input id="point_y3" class="point" name="point_y3" type="text">
+      z= <input id="point_z3" class="point" name="point_z3" type="text">
+  
+  <input type="radio" id="c_point4" name="c_point" value="4" onclick="change_point(this)">
+  點&nbsp;&nbsp;4:x= <input id="point_x4" class="point" name="point_x4" type="text"> 
+      y= <input id="point_y4" class="point" name="point_y4" type="text">
+      z= <input id="point_z4" class="point" name="point_z4" type="text">
+
+  <input type="radio" id="c_point5" name="c_point" value="5" onclick="change_point(this)">
+  點&nbsp;&nbsp;5:x= <input id="point_x5" class="point" name="point_x5" type="text">
+      y= <input id="point_y5" class="point" name="point_y5" type="text">
+      z= <input id="point_z5" class="point" name="point_z5" type="text">
+
+  <input type="radio" id="c_point6" name="c_point" value="6" onclick="change_point(this)">
+  點&nbsp;&nbsp;6:x= <input id="point_x6" class="point" name="point_x6" type="text"> 
+      y= <input id="point_y6" class="point" name="point_y6" type="text">
+      z= <input id="point_z6" class="point" name="point_z6" type="text"><br>
+
+  <input type="radio" id="c_point7" name="c_point" value="7" onclick="change_point(this)">
+  點7:x= <input id="point_x7" class="point" name="point_x7" type="text">
+      y= <input id="point_y7" class="point" name="point_y7" type="text">
+      z= <input id="point_z7" class="point" name="point_z7" type="text">
+
+  <input type="radio" id="c_point8" name="c_point" value="8" onclick="change_point(this)">
+  點8:x= <input id="point_x8" class="point" name="point_x8" type="text"> 
+      y= <input id="point_y8" class="point" name="point_y8" type="text">
+      z= <input id="point_z8" class="point" name="point_z8" type="text">
+
+  <input type="radio" id="c_point9" name="c_point" value="9" onclick="change_point(this)">
+  點9:x= <input id="point_x9" class="point" name="point_x9" type="text"> 
+      y= <input id="point_y9" class="point" name="point_y9" type="text">
+      z= <input id="point_z9" class="point" name="point_z9" type="text">
+
+  <input type="radio" id="c_point10" name="c_point" value="10" onclick="change_point(this)">
+  點10:x= <input id="point_x10" class="point" name="point_x10" type="text"> 
+       y= <input id="point_y10" class="point" name="point_y10" type="text"> 
+       z= <input id="point_z10" class="point" name="point_z10" type="text">
+       
+  <input type="radio" id="c_point11" name="c_point" value="11" onclick="change_point(this)">
+  點11:x= <input id="point_x11" class="point" name="point_x11" type="text"> 
+       y= <input id="point_y11" class="point" name="point_y11" type="text">
+       z= <input id="point_z11" class="point" name="point_z11" type="text">
+
+  <input type="radio" id="c_point12" name="c_point" value="12" onclick="change_point(this)">
+  點12:x= <input id="point_x12" class="point" name="point_x12" type="text"> 
+       y= <input id="point_y12" class="point" name="point_y12" type="text">
+       z= <input id="point_z12" class="point" name="point_z12" type="text"><br>
   <button type="button" onclick="my_clear()">清除所有點</button>
   <button type="button" onclick="Bezier_curve1()">畫出貝氏曲線1</button>
   <button type="button" onclick="BsplineCurve()">畫出B-spline曲線</button>
