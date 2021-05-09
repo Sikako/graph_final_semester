@@ -13,18 +13,53 @@
   var draw;
   
   function init(){        
-    my_pointX[0] = document.getElementById("point_x1"); my_pointY[0] = document.getElementById("point_y1");
-    my_pointX[1] = document.getElementById("point_x2"); my_pointY[1] = document.getElementById("point_y2");
-    my_pointX[2] = document.getElementById("point_x3"); my_pointY[2] = document.getElementById("point_y3");
-    my_pointX[3] = document.getElementById("point_x4"); my_pointY[3] = document.getElementById("point_y4");
-    my_pointX[4] = document.getElementById("point_x5"); my_pointY[4] = document.getElementById("point_y5");
-    my_pointX[5] = document.getElementById("point_x6"); my_pointY[5] = document.getElementById("point_y6");
-    my_pointX[6] = document.getElementById("point_x7"); my_pointY[6] = document.getElementById("point_y7");
-    my_pointX[7] = document.getElementById("point_x8"); my_pointY[7] = document.getElementById("point_y8");
-    my_pointX[8] = document.getElementById("point_x9"); my_pointY[8] = document.getElementById("point_y9");
-    my_pointX[9] = document.getElementById("point_x10"); my_pointY[9] = document.getElementById("point_y10");
-    my_pointX[10] = document.getElementById("point_x11"); my_pointY[10] = document.getElementById("point_y11");
-    my_pointX[11] = document.getElementById("point_x12"); my_pointY[11] = document.getElementById("point_y12");
+    my_pointX[0] = document.getElementById("point_x1"); 
+    my_pointY[0] = document.getElementById("point_y1");
+    my_pointZ[0] = document.getElementById("point_z1");
+
+    my_pointX[1] = document.getElementById("point_x2"); 
+    my_pointY[1] = document.getElementById("point_y2");
+    my_pointZ[1] = document.getElementById("point_z2");
+
+    my_pointX[2] = document.getElementById("point_x3"); 
+    my_pointY[2] = document.getElementById("point_y3");
+    my_pointZ[2] = document.getElementById("point_z3");
+
+    my_pointX[3] = document.getElementById("point_x4");
+    my_pointY[3] = document.getElementById("point_y4");
+    my_pointZ[3] = document.getElementById("point_z4");
+
+    my_pointX[4] = document.getElementById("point_x5"); 
+    my_pointY[4] = document.getElementById("point_y5");
+    my_pointZ[4] = document.getElementById("point_z5");
+
+    my_pointX[5] = document.getElementById("point_x6");
+    my_pointY[5] = document.getElementById("point_y6");
+    my_pointZ[5] = document.getElementById("point_z6");
+
+    my_pointX[6] = document.getElementById("point_x7"); 
+    my_pointY[6] = document.getElementById("point_y7");
+    my_pointZ[6] = document.getElementById("point_z7");
+
+    my_pointX[7] = document.getElementById("point_x8");
+    my_pointY[7] = document.getElementById("point_y8");
+    my_pointZ[7] = document.getElementById("point_z8");
+
+    my_pointX[8] = document.getElementById("point_x9");
+    my_pointY[8] = document.getElementById("point_y9");
+    my_pointZ[8] = document.getElementById("point_z9");
+
+    my_pointX[9] = document.getElementById("point_x10"); 
+    my_pointY[9] = document.getElementById("point_y10");
+    my_pointZ[9] = document.getElementById("point_z10");
+
+    my_pointX[10] = document.getElementById("point_x11");
+    my_pointY[10] = document.getElementById("point_y11");
+    my_pointZ[10] = document.getElementById("point_z11");
+
+    my_pointX[11] = document.getElementById("point_x12"); 
+    my_pointY[11] = document.getElementById("point_y12");
+    my_pointZ[11] = document.getElementById("point_z12");
     draw = SVG('drawing');
   }  
   function my_clear() {
@@ -65,6 +100,7 @@
     //else if (e.button == 2) my_circle(e.clientX,e.clientY,"green");
     my_pointX[point_num%12].value = e.clientX;
     my_pointY[point_num%12].value = e.clientY;
+    my_pointZ[point_num%12].value = 0
     point_num ++;
     if(((point_num+1)%12) == 0) document.getElementById("c_point12").checked = true;
     else                    document.getElementById("c_point" + ((point_num+1)%12)).checked = true;
