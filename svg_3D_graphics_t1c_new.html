@@ -475,9 +475,9 @@ function rotate_x() {
          my_pointZ2[i]=my_pointY[i].value*Math.sin(pi)+my_pointZ[i].value*Math.cos(pi);
       } 
       for(i=0;i<4;i++) {
-         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
-         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
-         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+         my_pointX[i].value=parseFloat(my_pointX2[i])+cx;
+         my_pointY[i].value=parseFloat(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseFloat(my_pointZ2[i])+cz;
       }   
       
       Bezier_curve1()
@@ -500,12 +500,12 @@ function rotate_x() {
          
          my_pointX2[i]=my_pointX[i].value*Math.cos(pi)+my_pointZ[i].value*Math.sin(pi);
          my_pointY2[i]=my_pointY[i].value
-         my_pointZ2[i]=-1*(my_pointX[i].value)*Math.sin(pi)+my_pointZ[i].value*Math.sin(pi);
+         my_pointZ2[i]=-my_pointX[i].value*Math.sin(pi)+my_pointZ[i].value*Math.cos(pi);
       } 
       for(i=0;i<4;i++) {
-         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
-         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
-         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+         my_pointX[i].value=parseFloat(my_pointX2[i])+cx;
+         my_pointY[i].value=parseFloat(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseFloat(my_pointZ2[i])+cz;
       }   
       
       Bezier_curve1()
@@ -532,9 +532,9 @@ function rotate_x() {
          my_pointZ2[i]=my_pointZ[i].value;
       } 
       for(i=0;i<4;i++) {
-         my_pointX[i].value=parseInt(my_pointX2[i])+cx;
-         my_pointY[i].value=parseInt(my_pointY2[i])+cy;
-         my_pointZ[i].value=parseInt(my_pointZ2[i])+cz;
+         my_pointX[i].value=parseFloat(my_pointX2[i])+cx;
+         my_pointY[i].value=parseFloat(my_pointY2[i])+cy;
+         my_pointZ[i].value=parseFloat(my_pointZ2[i])+cz;
       }   
       
       Bezier_curve1()
